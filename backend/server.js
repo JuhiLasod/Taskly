@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI)
 
     .then(()=>{console.log("db connected")})
     .catch(()=>{console.log("error while connecting to db")});
-    console.log(process.env.MONGO_URI);
+    // console.log(process.env.MONGO_URI);
 // app.get("/api/auth",routes);
 app.listen(process.env.PORT || 8000,()=>{
     console.log("server running on",process.env.PORT);
