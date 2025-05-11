@@ -3,6 +3,7 @@ import User from "../Models/User.js";
 export const signupController=async(req,res)=>{
     const {email,password}=req.body;
     try{
+        
         const existing=await User.findOne({email,password});
         if(existing)
         {
@@ -12,11 +13,13 @@ export const signupController=async(req,res)=>{
         {
             const newUser=new User({email,password});
             await newUser.save();
-            res.send("signup succ")
+            console.log("sign up successfull")
+            res.send("success")
         }
     }
     catch(err){
-        res.send("sign up unsucc");
+        console.log("sign up successfull")
+        res.send("fail");
     }
     
     console.log(email);
