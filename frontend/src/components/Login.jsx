@@ -19,7 +19,8 @@ function Login() {
     });
     const text = await res.text();
     if (text === "success") {
-      navigate("/userdash");
+        localStorage.setItem("email", email);
+        navigate("/userdash");
     } else {
       setMessage(text);
     }
