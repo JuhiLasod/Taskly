@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const TaskInnerSchema=new mongoose.Schema({
-    index: {type: String},
+    // index: {type: String},
     task:{type:String},
     status:{type:Boolean , default: false},
     duedate: {type: Date}

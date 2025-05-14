@@ -3,7 +3,7 @@ function UserDash(){
     const [add,setAdd]=useState(false);
     const [task,setTask]=useState('');
     const [duedate,setDuedate]=useState('');
-    const [index,setIndex]=useState('0');
+    // const [index,setIndex]=useState('0');
     // const [message,setMessage]=useState('');
     const [data,setData]=useState([]);
     const [edit,setEdit]=useState('');
@@ -22,15 +22,17 @@ function UserDash(){
     },[email]);
     
     useEffect(()=>{fetchTasks()},[fetchTasks]);
-    useEffect(()=>{console.log(index)},[index]);
+    // useEffect(()=>{console.log(index)},[index]);
+    
+        
     const handleAdd=async()=>{
         // const i=index++;
-        setIndex(prev=>String(Number(prev)+1));
+        // setIndex(prev=>String(Number(prev)+1));
         // console.log(index);
         const res=await fetch("http://localhost:8000/api/auth/addtask",{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({index, email, task, duedate})
+            body: JSON.stringify({ email, task, duedate})
         }
         );
         const text=await res.text();
@@ -41,32 +43,52 @@ function UserDash(){
         setTask('');
         setDuedate('');
     };
-    const handleEditStatus=async()=>{
+    const handleDelete = async(_id) => {
+            const c='2';
+            const result = window.confirm("Are you sure you want to delete this task?");
+            if (result) {
+                const res=await fetch("http://localhost:8000/api/auth/edit",{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({_id,email,choice: c})
+                });
+                const text=await res.text();
+                fetchTasks();
+                if(text!=="success"){
+                alert("successfully deleted");
+                console.log("Task deleted");
+                }
+            } else {
+                // Cancel clicked
+                console.log("deletion cancelled");
+            }
+        };
+    const handleEditStatus=async(_id)=>{
         const c='1'
-        // setChoice(c);
-        
+        const result=window.confirm("are you sure you want to update the task status?");
+        if(result)
+        {  
         const res=await fetch("http://localhost:8000/api/auth/edit",{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email,choice: c})
+            body: JSON.stringify({_id,email,choice: c})
         });
         const text=await res.text();
-        console.log(text);
+        fetchTasks();
+        // console.log(_id);
+        if(text!=="success"){
         // setChoice('');
+        
+        alert("status successfully updated to completed");
+        console.log("updated");
+        }
+        }
+        else{
+            console.log("updation cancelled");
+        }
 
     };
-    const handleDelete=async()=>{
-        const c='2';
-        // setChoice(c);
-        const res=await fetch("http://localhost:8000/api/auth/edit",{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email,choice: c})
-        });
-        const text=await res.text();
-        console.log(text);
-        // setChoice('');
-    };
+    
     return(
         <div>
             this is dash for users
@@ -94,13 +116,14 @@ function UserDash(){
                         {Array.isArray(data) && data.length > 0 ? (
                         data.map((t, i) => (
                         <div key={i} style={{ border: '1px solid gray', margin: '5px', padding: '5px' }}>
-                            <strong>{t.task}</strong> - Due: {new Date (t.duedate).toLocaleDateString()}
+                            <strong> {t.task}</strong> - Due: {new Date (t.duedate).toLocaleDateString()}
+                            <div>Status: {t.status ? "✅ Done" : "❌ Pending"}</div>
                             <button onClick={()=>setEdit(i)}>edit</button>
                             <div>
                                 {(edit===i) && (
                                     <div>
-                                        <button onClick={handleDelete}>delete</button>
-                                        <button onClick={handleEditStatus}>edit status</button>
+                                        <button onClick={()=>handleDelete(t._id)}>delete</button>
+                                        <div>{(!t.status) && (<button onClick={()=>handleEditStatus(t._id)}>edit status</button>)}</div>
                                     </div>)
                                 }
                             </div>
