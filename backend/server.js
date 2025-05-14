@@ -5,7 +5,11 @@ import dotenv from 'dotenv';
 import authRoutes from "./Routes/authRoutes.js";
 
 const app=express();
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: "https://taskly-3k4r.onrender.com", // match your frontend Render URL
+    credentials: true
+  }));
 app.use(express.json());
 app.get("/",(req,res)=>{
     res.send("API running");
