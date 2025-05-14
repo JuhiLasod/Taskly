@@ -1,8 +1,9 @@
 import Task from "../Models/TaskOuter.js"
 export const addTaskController=async(req,res)=>{
     try{
-    const {email,task,duedate}=req.body;
+    const {index,email,task,duedate}=req.body;
     const newTask = {
+        index,
         task,
         duedate: new Date(duedate),
         status: false
