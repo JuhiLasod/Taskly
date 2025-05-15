@@ -10,7 +10,7 @@ function UserDash() {
   const email = localStorage.getItem("email");
 
   const fetchTasks = useCallback(async () => {
-    const res = await fetch("http://localhost:8000/api/auth/loadtask", {
+    const res = await fetch("https://taskly-backend-62oq.onrender.com/api/auth/loadtask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -24,7 +24,7 @@ function UserDash() {
   }, [fetchTasks]);
 
   const handleAdd = async () => {
-    const res = await fetch("http://localhost:8000/api/auth/addtask", {
+    const res = await fetch("https://taskly-backend-62oq.onrender.com/api/auth/addtask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, task, duedate }),
@@ -41,7 +41,7 @@ function UserDash() {
     const c = "2";
     const result = window.confirm("Are you sure you want to delete this task?");
     if (result) {
-      const res = await fetch("http://localhost:8000/api/auth/edit", {
+      const res = await fetch("https://taskly-backend-62oq.onrender.com/api/auth/edit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ _id, email, choice: c }),
@@ -61,7 +61,7 @@ function UserDash() {
     const c = "1";
     const result = window.confirm("are you sure you want to update the task status?");
     if (result) {
-      const res = await fetch("http://localhost:8000/api/auth/edit", {
+      const res = await fetch("https://taskly-backend-62oq.onrender.com/api/auth/edit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ _id, email, choice: c }),
