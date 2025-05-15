@@ -12,7 +12,7 @@ function Login() {
   };
 
   const handleLogin = async () => {
-    const res = await fetch("http://localhost:8000/api/auth/login", {
+    const res = await fetch("https://taskly-backend-62oq.onrender.com/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
