@@ -1,1 +1,1 @@
-# Taskly
+Taskly is a task management website that lets you sign up/sign in, add, delete, and update tasks as complete or pending. Your data stays safe and intact even after logging out, ensuring a well-maintained and personalized task list every time you log in.
